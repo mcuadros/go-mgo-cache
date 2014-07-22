@@ -1,7 +1,6 @@
 package mgocache
 
 import (
-	"bytes"
 	"testing"
 )
 
@@ -24,6 +23,7 @@ func (s *S) Test(c *C) {
 	defer session.Close()
 
 	cache := New(collection)
+	cache.Indexes()
 
 	key := "testKey"
 	_, ok := cache.Get(key)
@@ -35,7 +35,14 @@ func (s *S) Test(c *C) {
 
 	retVal, ok := cache.Get(key)
 	c.Assert(ok, Equals, true)
-	c.Assert(bytes.Equal(retVal, val), Equals, true)
+	c.Assert(string(retVal), Equals, string(val))
+
+	val = []byte("some other bytes")
+	cache.Set(key, val)
+
+	retVal, ok = cache.Get(key)
+	c.Assert(ok, Equals, true)
+	c.Assert(string(retVal), Equals, string(val))
 
 	cache.Delete(key)
 

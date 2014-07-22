@@ -34,7 +34,7 @@ func (self *Cache) Get(key string) (resp []byte, ok bool) {
 }
 
 func (self *Cache) Set(key string, content []byte) {
-	err := self.Collection.Insert(&record{
+	_, err := self.Collection.Upsert(bson.M{"key": key}, &record{
 		Created: time.Now(),
 		Updated: time.Now(),
 		Key:     key,
@@ -53,6 +53,19 @@ func (self *Cache) Delete(key string) {
 	err := self.Collection.Remove(bson.M{"key": key})
 	if err != nil {
 		log.Printf("Can't remove record: %s", err)
+	}
+}
+
+func (self *Cache) Indexes() {
+	index := mgo.Index{
+		Key:      []string{"key"},
+		Unique:   true,
+		DropDups: true,
+	}
+
+	err := self.Collection.EnsureIndex(index)
+	if err != nil {
+		log.Printf("Can't ensure index: %s", err)
 	}
 }
 
