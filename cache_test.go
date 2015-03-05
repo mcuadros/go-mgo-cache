@@ -2,10 +2,11 @@ package mgocache
 
 import (
 	"testing"
+	
+	"gopkg.in/mgo.v2"
+	"gopkg.in/mgo.v2/bson"
+	. "gopkg.in/check.v1"
 )
-
-import . "launchpad.net/gocheck"
-import "labix.org/v2/mgo"
 
 func Test(t *testing.T) { TestingT(t) }
 
