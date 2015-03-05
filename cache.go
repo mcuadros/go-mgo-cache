@@ -5,10 +5,10 @@ package mgocache
 import (
 	"log"
 	"time"
+	
+	"gopkg.in/mgo.v2"
+	"gopkg.in/mgo.v2/bson"
 )
-
-import "labix.org/v2/mgo"
-import "labix.org/v2/mgo/bson"
 
 // Cache objects store and retrieve data using Mongo.
 type Cache struct {
